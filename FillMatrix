@@ -1,0 +1,171 @@
+using System;
+
+
+namespace _01.Fill_the_matrix
+{
+    class Program
+    {
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+            char symbol = char.Parse(Console.ReadLine());
+            //int n = 4;
+            //char symbol = 'b';
+
+            int[,] matrix = new int[n, n];
+
+
+            int counter = 1;
+            for (int row = 0; row < n; row++)
+            {
+                for (int col = 0; col < n; col++)
+                {
+                    matrix[row, col] = counter;
+                    counter++;
+                }
+            }
+
+            switch (symbol)
+            {
+                case 'a':
+                    for (int row = 0; row < n; row++)
+                    {
+                        for (int col = 0; col < n; col++)
+                        {
+                            Console.Write("{0}{1}", matrix[col, row], col == n - 1 ? '\n' : ' ');
+                        }
+                    }
+                    break;
+                case 'b':
+                    int startCount = 1;
+                    for (int rows = 0; rows < n; rows++)
+                    {
+                        if (rows % 2 == 0)
+                        {
+                            for (int cols = 0; cols < n; cols++)
+                            {
+                                matrix[cols, rows] = startCount++;
+                            }
+                        }
+                        else
+                        {
+                            for (int cols = n - 1; cols >= 0; cols--)
+                            {
+                                matrix[cols, rows] = startCount++;
+                            }
+                        }
+                    }
+                    for (int i = 0; i < matrix.GetLength(0); i++)
+                    {
+                        Console.Write(matrix[i, 0]);
+                        for (int p = 1; p < matrix.GetLength(1); p++)
+                        {
+                            Console.Write(" {0}", matrix[i, p]);
+                        }
+                        Console.WriteLine();
+                    }
+                    break;
+                case 'c':
+                    int rows1 = 0;
+                    int cols1 = 0;
+                    int startCount1 = 1;
+
+                    for (int i = n - 1; i >= 0; i--)
+                    {
+                        rows1 = i;
+                        cols1 = 0;
+                        while (rows1 < n && cols1 < n)
+                        {
+                            matrix[rows1++, cols1++] = startCount1++;
+                        }
+                    }
+
+                    for (int j = 1; j < n; j++)
+                    {
+                        rows1 = j;
+                        cols1 = 0;
+                        while (rows1 < n && cols1 < n)
+                        {
+                            matrix[cols1++, rows1++] = startCount1++;
+                        }
+                    }
+
+                    for (int i = 0; i < matrix.GetLength(0); i++)
+                    {
+                        Console.Write(matrix[i, 0]);
+                        for (int p = 1; p < matrix.GetLength(1); p++)
+                        {
+                            Console.Write(" {0}", matrix[i, p]);
+                        }
+                        Console.WriteLine();
+                    }
+
+                    break;
+                case 'd':
+
+                    int numberToAdd = 1;
+                    int globalCounter = n;
+                    int tempValue = -n;
+                    int sum = -1;
+
+                    do
+                    {
+                        tempValue = -1 * tempValue / n;
+                        for (int i = 0; i < globalCounter; i++)
+                        {
+                            sum += tempValue;
+                            matrix[sum / n, sum % n] = numberToAdd;
+                            numberToAdd++;
+                        }
+                        tempValue *= n;
+                        globalCounter--;
+                        for (int i = 0; i < globalCounter; i++)
+                        {
+                            sum += tempValue;
+                            matrix[sum / n, sum % n] = numberToAdd;
+                            numberToAdd++;
+                        }
+                    } while (globalCounter > 0); int numberToAdd1 = 1;
+                    int globalCounter1 = n;
+                    int tempValue1 = -n;
+                    int sum1 = -1;
+
+                    do
+                    {
+                        tempValue = -1 * tempValue / n;
+                        for (int i = 0; i < globalCounter; i++)
+                        {
+                            sum += tempValue;
+                            matrix[sum / n, sum % n] = numberToAdd;
+                            numberToAdd++;
+                        }
+                        tempValue *= n;
+                        globalCounter--;
+                        for (int i = 0; i < globalCounter; i++)
+                        {
+                            sum += tempValue;
+                            matrix[sum / n, sum % n] = numberToAdd;
+                            numberToAdd++;
+                        }
+                    } while (globalCounter > 0);
+
+                    for (int p = 0; p < matrix.GetLength(0); p++)
+                    {
+                        Console.Write(matrix[0, p]);
+                        for (int i = 1; i < matrix.GetLength(1); i++)
+                        {
+                            Console.Write(" {0}", matrix[i, p]);
+                        }
+                        Console.WriteLine();
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+    }
+}
+
