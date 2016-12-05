@@ -1,0 +1,92 @@
+using System;
+
+
+namespace NumeralSystem
+{
+    class StartUp
+    {
+        static int ParseInt(string number)
+        {
+            //for 10
+            int result = 0;
+
+            foreach (char digit in number)
+            {
+                result = result * 10 + (digit - '0');
+            }
+
+            return result;
+        }
+
+        static int ConvertFromHexToDec(string number)
+        {
+            int result = 0;
+            foreach (char digit in number)
+            {
+                int digitValue;
+
+                if (char.IsDigit(digit))
+                {
+                    digitValue = digit - '0';
+                }
+                else
+                {
+                    digitValue = digit - 'A' + 10;
+                }
+
+                result = 16 * result + digitValue;
+            }
+
+            return result;
+        }
+
+        static int ConvertToDecimal(string number, int numeralBase)
+        {
+            int result = 0;
+            foreach (char digit in number)
+            {
+                result = result * numeralBase  + (digit - '0');
+            }
+
+            return result;
+        }
+
+        static string FromDecTo(int value, int numeralBase)
+        {
+            string result = "";
+
+            do
+            {
+                int digit = value % numeralBase;
+                value /= numeralBase;
+
+                result = digit + result;
+            } while (value > 0);
+
+            return result;
+        }
+
+        static string DecToHex(int value) {
+
+            string result = "";
+
+            string hexDigits = "0123456789ABCDEF";
+
+            do
+            {
+                int digitValue = value % 16;
+                char digit = hexDigits[digitValue];
+                value /= 16;
+
+                result = digit + result;
+            } while (value>0);
+
+            return result; 
+        }
+
+        static void Main()
+        {
+            Console.WriteLine(ParseInt("5838"));
+        }
+    }
+}
