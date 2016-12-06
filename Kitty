@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace June2016
+{
+    class Kitty
+    {
+        //static int ReadingStr(char [] str1)
+        //{
+        //    int result = 0;
+        //    int
+        //    for (int i = 0; i < str1.Length; i++)
+        //    {
+        //        for (int k = 0; k < length; k++)
+        //        {
+
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        static void Main()
+        {
+            //  string str = Console.ReadLine();
+            //   char[] str1 = str.ToCharArray();
+
+
+            // int str2 = int.Parse(Console.ReadLine());
+            //  var str2 = Console.ReadLine().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            char[] path = Console.ReadLine().ToCharArray();
+            var moves = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            int soulsCounter = 0;
+            int foodCollected = 0;
+            int deadLocks = 0;
+            int currentIndex = 0;
+            int currentMove = 0;
+            bool deadlocked = false;
+
+            while (true)
+            {
+                char currentItem = path[currentIndex];
+
+                if (currentItem == '@')
+                {
+                    soulsCounter++;
+                    path[currentIndex] = '0';
+                }
+                if (currentItem == '*')
+                {
+                    foodCollected++;
+                    path[currentIndex] = '0';
+                }
+                if (currentItem == 'x')
+                {
+                    if (currentIndex % 2 == 0)
+                    {
+                        soulsCounter--;
+                        path[currentIndex] = '@';
+                        if (soulsCounter < 0)
+                        {
+                            Console.WriteLine("You are deadlocked, you greedy kitty!");
+                            Console.WriteLine("Jumps before deadlock: {0}", currentMove);
+                            deadlocked = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        foodCollected--;
+                        path[currentIndex] = '*';
+                        if (foodCollected < 0)
+                        {
+                            Console.WriteLine("You are deadlocked, you greedy kitty!");
+                            Console.WriteLine("Jumps before deadlock: {0}", currentMove);
+                            deadlocked = true;
+                            break;
+                        }
+                    }
+                    deadLocks++;
+                }
+
+                // Change Index && break
+
+                if (currentMove == moves.Length)
+                {
+                    break;
+                }
+                if (moves[currentMove] > 0)
+                {
+                    currentIndex = (int)((currentIndex + moves[currentMove]) % path.Length);
+                }
+                else
+                {
+                    int check = currentIndex + moves[currentMove];
+                    //currentIndex = (int)((currentIndex - moves[currentMove]) % path.Length);
+                    currentIndex = check % path.Length;
+                    if (currentIndex < 0)
+                    {
+                        currentIndex += path.Length;
+                    }
+                }
+                currentMove++;
+            }
+
+            if (!deadlocked)
+            {
+                Console.WriteLine("Coder souls collected: {0}", soulsCounter);
+                Console.WriteLine("Food collected: {0}", foodCollected);
+                Console.WriteLine("Deadlocks: {0}", deadLocks);
+            }
+
+            // Console.WriteLine("You are deadlocked, you greedy kitty!");
+        }
+    }
+    }
+
